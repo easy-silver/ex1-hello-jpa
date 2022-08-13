@@ -21,6 +21,8 @@ public class JpaMain {
         try {
             //JPA(JPQL)를 사용하면 검색을 할 때도 테이블이 아닌 엔티티 객체를 대상으로 검색한다.
             List<Member> members = em.createQuery("select m from Member as m", Member.class)
+                    .setFirstResult(5)
+                    .setMaxResults(8)
                     .getResultList();
 
             for (Member member : members) {
