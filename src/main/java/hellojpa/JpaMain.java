@@ -20,18 +20,21 @@ public class JpaMain {
         try {
             //비영속
             Member member = new Member();
-            member.setId(100L);
+            member.setId(101L);
             member.setName("HelloJPA");
 
             System.out.println("=== before persist");
             //영속
             em.persist(member);
 
-            System.out.println("=== before commit ");
+            Member findMember = em.find(Member.class, 101L);
+
+            System.out.println("=== after persist before commit ");
             tx.commit();
 
-            //SQL이 DB로 보내지는 시점은 commit 이후이다.
             System.out.println("=== after commit");
+            System.out.println("findMember.getId() = " + findMember.getId());
+            System.out.println("findMember.getName() = " + findMember.getName());
         } catch (Exception e) {
             tx.rollback();
         } finally {
