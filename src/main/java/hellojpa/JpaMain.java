@@ -4,7 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class JpaMain {
 
@@ -19,16 +18,20 @@ public class JpaMain {
         tx.begin();
 
         try {
-            //JPA(JPQL)를 사용하면 검색을 할 때도 테이블이 아닌 엔티티 객체를 대상으로 검색한다.
-            List<Member> members = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(5)
-                    .setMaxResults(8)
-                    .getResultList();
+            //비영속
+            Member member = new Member();
+            member.setId(100L);
+            member.setName("HelloJPA");
 
-            for (Member member : members) {
-                System.out.println("member.getName() = " + member.getName());
-            }
+            System.out.println("=== before persist");
+            //영속
+            em.persist(member);
+
+            System.out.println("=== before commit ");
             tx.commit();
+
+            //SQL이 DB로 보내지는 시점은 commit 이후이다.
+            System.out.println("=== after commit");
         } catch (Exception e) {
             tx.rollback();
         } finally {
