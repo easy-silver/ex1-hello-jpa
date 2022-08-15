@@ -19,14 +19,13 @@ public class JpaMain {
 
         try {
 
-            //SQL 명령을 실행한다.
-            Member findMember1 = em.find(Member.class, 101L);
-            //아래 조회는 이미 1차캐시에 존재하므로 SQL 명령을 실행하지 않는다.
-            Member findMember2 = em.find(Member.class, 101L);
+            Member member1 = new Member(150L, "A");
+            Member member2 = new Member(160L, "B");
 
-            System.out.println("findMember1 == findMember2 : " + (findMember1 == findMember2));
-            System.out.println("findMember1: " + findMember1.hashCode());
-            System.out.println("findMember2: " + findMember2.hashCode());
+            em.persist(member1);
+            em.persist(member2);
+
+            System.out.println("=================");
 
             tx.commit();
         } catch (Exception e) {
