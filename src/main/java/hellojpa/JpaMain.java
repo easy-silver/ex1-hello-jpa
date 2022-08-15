@@ -19,10 +19,11 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member(200L, "memberNew");
-            em.persist(member);
-            //flush() 쓰기 지연 저장소에 있는 SQL이 실행된다.
-            em.flush();
+            Member member = em.find(Member.class, 150L);
+            member.setName("AAAAA");
+
+            //영속성 컨텍스트에서 분리(커밋해도 SQL 실행 안됨)
+            em.detach(member);
 
             System.out.println("=================");
 
